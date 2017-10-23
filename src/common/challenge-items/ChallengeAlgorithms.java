@@ -1,4 +1,4 @@
-package stu.jzhang.algorithm;
+package common/challenge-items;
 
 /**
  * Created by jizhang on 10/15/17.
