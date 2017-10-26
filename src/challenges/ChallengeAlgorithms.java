@@ -1,4 +1,4 @@
-package challenges;
+package stu.jzhang.algorithm;
 
 /**
  * Created by jizhang on 10/15/17.
@@ -12,42 +12,35 @@ public class ChallengeAlgorithms {
     }
 
     /**
-     * we split the whole array into multiple subArrays, and try to sort the subArrays, finally you will get a whole
+     * we split the whole array into multiple subarrays, and try to sort the subArrays, finally you will get a whole
      * sorted array.
      * @param arr un-sorted
      * @return the max cuts allowed to form this kind of subArrays
      *
      * For example, [1, 2, 9, 4] we can split it into [1] [2] [9,4] with the max two cuts.
      */
-    private int maxCut(int[] arr){
+    public int maxCut(int[] arr){
         if(arr == null || arr.length < 2) return 0;
         int n = arr.length;
 
-        // dp[i][j] represents the max cuts on top of subArray[i,j]
-        int[][] dp = new int[n][n];
-        for(int len = 1; len < n; ++len){
-            for(int i = 0; i +len < n; ++i){
-                int j = len + i;
+        // dp[i] represents the max cuts on top of subArray[0,i]
+        int[] dp = new int[n];
 
-                // TODO we can have one global dpMin and dpMax to have O(1) to get max or min on the subarray
-                // try construct the dpMax on the subarray [i, j]
-                int[] max = new int[len+1];
-                for(int k = i; k<= j; ++k) max[k-i] = k == i ? arr[k] : Math.max(max[k-i-1], arr[k]);
+        int[] max = new int[n];
+        for(int k = 0; k < n; ++k) max[k] = k == 0 ? arr[k] : Math.max(max[k-1], arr[k]);
 
-                // try construct the dpMax on the subarray [i, j]
-                int[] min = new int[len+1];
-                for(int k = j; k >= i; --k) min[k-i] = k == j ? arr[k] : Math.min(min[k-i+1], arr[k]);
-
-                // manage to put cut inside the subarray
-                for(int k = i+1; k<= j; ++k){
-                    if(max[k-i-1] <= min[k-i]){
-                        dp[i][j] = Math.max(dp[i][j],
-                                dp[i][k-1] + dp[k][j] + 1);
-                    }
+        int min;
+        // try construct the dpMax on the subarray [i, j]
+        for(int i = 1; i < n; ++i){
+            min = arr[i];
+            for(int j = i-1; j >= 0; --j){
+                if(max[j] <= min){
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
                 }
+                min = Math.max(min, arr[j]);
             }
         }
 
-        return dp[0][n-1];
+        return dp[n-1];
     }
 }
