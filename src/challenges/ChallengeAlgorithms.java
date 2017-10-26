@@ -6,9 +6,12 @@ package stu.jzhang.algorithm;
 public class ChallengeAlgorithms {
     public static void main(String[] args){
         ChallengeAlgorithms test = new ChallengeAlgorithms();
-        System.out.println(test.maxCut(new int[]{1,3,4,3,7,8,7,12}));
-        System.out.println(test.maxCut(new int[]{1,3,4,7,12}));
-        System.out.println(test.maxCut(new int[]{12,7,4,3,1}));
+        System.out.println(test.maxCutsII(new int[]{1, 3,  4,3,  7  ,8,7  ,12}));
+        System.out.println(test.maxCutsII(new int[]{1, 3, 4,7, 12}));
+        System.out.println(test.maxCutsII(new int[]{12,7,4,3,1}));
+        System.out.println(test.maxCutsII(new int[]{1,  2,  9,  4}));
+        System.out.println(test.maxCutsII(new int[]{1,  1,  1,  1}));
+        System.out.println(test.maxCutsII(new int[]{1, 0}));
     }
 
     /**
@@ -42,5 +45,29 @@ public class ChallengeAlgorithms {
         }
 
         return dp[n-1];
+    }
+
+    /**
+     * Based on the solution above, we don't need to apply dp, we can directly to calculate the max cuts.
+     * @param arr
+     * @return
+     */
+    public int maxCutsII(int[] arr){
+        if(arr == null || arr.length < 2) return 0;
+        int n = arr.length;       
+
+        int[] max = new int[n];
+        for(int k = 0; k < n; ++k) max[k] = k == 0 ? arr[k] : Math.max(max[k-1], arr[k]);
+
+        int total = 0, min = arr[n-1];
+        for(int i = n-2; i >= 0; --i){
+            if(max[i] <= min){
+                total++;
+            }
+
+            min = Math.min(min, arr[i]);
+        }
+
+        return total;
     }
 }
