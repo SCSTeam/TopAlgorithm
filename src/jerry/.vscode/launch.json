@@ -8,7 +8,7 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "program": "/Users/jiwu/study/TopAlgorithm/src/jerry/js_special/test.js",
+      "program": "/Users/jerry/IdeaProjects/TopAlgorithm/src/jerry/array/lc719_FindK-thSmallestPairDistance.js",
       "cwd": "${workspaceFolder}"
     },
     {
