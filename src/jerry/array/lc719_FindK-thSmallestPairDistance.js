@@ -7,18 +7,21 @@ var PriorityQueue = require('js-priority-queue');
  * @return {number}
  */
 var smallestDistancePair = function(nums, k) {
+  var result = 0;
   if (!nums || k <= 0) {
-    return 0;
+    return result;
   }
-
+  
   nums.sort();
   var count = 0;
   var n = nums.length;
-  var pq = new PriorityQueue(function(a, b) {
-    if (a.val === b.val) {
-      return 0;
+  var pq = new PriorityQueue({
+    comparator: (a, b) => {
+      if (a.val === b.val) {
+        return 0;
+      }
+      return a.val < b.val ? 1 : -1;
     }
-    return a.val < b.val ? 1 : -1;
   });
   pq.queue(new Cell(nums[n - 1] - nums[0], n - 1, 0));
 
@@ -28,7 +31,7 @@ var smallestDistancePair = function(nums, k) {
   }
   visited[n - 1][0] = true;
 
-  while (count < nums.length - k + 1) {
+  while (pq.length > 0) {
     let cell = pq.dequeue();
     let x = cell.x;
     let y = cell.y;
@@ -42,9 +45,13 @@ var smallestDistancePair = function(nums, k) {
     }
 
     count++;
+    if (count == n - k + 1) {
+      result = cell.val;
+      break;
+    }
   }
 
-  return pq.peek().val;
+  return result;
 };
 
 var Cell = function(val, x, y) {

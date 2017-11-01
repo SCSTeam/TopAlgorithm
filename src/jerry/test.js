@@ -1,25 +1,19 @@
-var Test = function() {
-  var self = this;
-  var val = "";
-  var timeout = 0;
+var PQ = require('js-priority-queue');
 
-  this.sleep = function(timeout) {
-    setTimeout(function() {
-      
-    }, timeout);
+(() => {
+  var q = new PQ({
+    comparator: (a, b) => {
+        return b.val - a.val;
+    }
+  });
 
-    return self;
-  };
+  q.queue(new Cell(2));
+  q.queue(new Cell(1));
+  q.queue(new Cell(3));
 
-  this.print = function(string) {
-    self.val = string;
-    console.log(self.val);
-
-    return self;
-  };
-};
-
-
-(function() {
-
+  console.log(q.peek().val);
 })();
+
+function Cell(v) {
+  this.val = v;
+}
