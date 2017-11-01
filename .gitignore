@@ -23,3 +23,5 @@ hs_err_pid*
 
 # do not sync .idea
 .idea/*
+
+*/.DS_Store
