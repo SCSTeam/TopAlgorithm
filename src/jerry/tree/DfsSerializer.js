@@ -3,32 +3,27 @@ var TreeNode = require('../common/TreeNode');
 
 /**
  * @param {TreeNode} root
- * @returns {Array} serialized tree in array format
+ * @returns {string} serialized tree in array format
  */
 var serialize = (root) => {
-  var serializedTree = [];
   if (_.isNull(root)) {
-    return serializedTree;
+    return "";
   }
 
+  var serializedTree = [];
   serializeHelper(root, serializedTree);
-  return serializedTree;
+  return serializedTree.join(',');
 };
 
 var serializeHelper = function(root, result) {
   if (_.isNull(root)) {
-    result.push(root);
-    return;
-  }
-
-  if (_.isNull(root.left) && _.isNull(root.right)) {
-    result.push(root.val);
+    result.push('_');
     return;
   }
 
   result.push(root.val);
-  serializeHelper(root.left);
-  serializeHelper(root.right);
+  serializeHelper(root.left, result);
+  serializeHelper(root.right, result);
 };
 
 /**
@@ -40,10 +35,28 @@ var deserialize = (input) => {
     return null;
   }
 
-  var val = input.unshift();
-  var root = new TreeNode(val);
-  root.left = deserialize(input);
-  root.right = deserialize(input);
+  input = input.split(',');
+  return deserializeHelper(input, [0]);
+};
+
+/**
+ * 
+ * @param {Array} input 
+ * @param {Array} index 
+ */
+var deserializeHelper = (input, index) => {
+  if (index[0] === input.length) {
+    return null;
+  }
+
+  var val = input[index[0]++];
+  if (val === '_') {
+    return null;
+  }
+
+  var root = new TreeNode(parseInt(val));
+  root.left = deserializeHelper(input, index);
+  root.right = deserializeHelper(input, index);
   return root;
 };
 
