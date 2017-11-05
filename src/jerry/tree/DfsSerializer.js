@@ -7,7 +7,8 @@ var TreeNode = require('../common/TreeNode');
  */
 var serialize = (root) => {
   if (_.isNull(root)) {
-    return "";
+    return ""
+    ;
   }
 
   var serializedTree = [];
