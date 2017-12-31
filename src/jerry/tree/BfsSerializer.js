@@ -51,10 +51,14 @@ var deserialize = (input) => {
     let size = q.length;
     for (let j = 0; j < size; j++) {
       let cur = q.shift();
-      if (cur === '_') continue;
+      if (cur === null) continue;
 
-      let left = new TreeNode(+input[i++]);
-      let right = i < input.length ? new TreeNode(+input[i++]) : null;
+      let left = input[i] === '_' ? null : new TreeNode(+input[i]);
+      i++;
+      
+      let right = i < input.length && input[i] !== '_' ? new TreeNode(+input[i]) : null;
+      i++;
+      
       cur.left = left;
       cur.right = right;
       q.push(left);
